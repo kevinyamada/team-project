@@ -12,452 +12,121 @@ By keeping this README up-to-date,
 your team will find it easier to prepare for the final presentation
 at the end of the term.
 
-# Pinterest-Inspired Image Discovery Application
+# Team Project – Pinterest-Inspired Image Discovery Application
 
-A Java application that allows users to search for images, create and manage boards and pins, customize their profiles, and receive personalized image recommendations.
+## Project Overview
 
-**Tech Stack:** Java, Java Swing, Unsplash API, JSON, JUnit
+Our project is a Pinterest-inspired application developed using **Java and Java Swing**. The application allows users to search for images, save and organize images into boards, customize their profiles, and receive personalized image recommendations.
 
-## Project Progress Tracker
+Unlike traditional image browsing applications, our project aims to provide recommendations based on the visual preferences of individual boards. Users can discover images that match their interests and organize them into collections.
 
-### Team Responsibilities
+## User Stories
 
-| ID | Feature | Assigned To | Status |
-|---|---|---|---|
-| 1 | Account Registration & Login | Matthew | ⬜ Not Started |
-| 2 | Image Search & Browsing | Kevin | ⬜ Not Started |
-| 3 | Personalized Recommendations | Kevin | ⬜ Not Started |
-| 4 | Pin Management & Persistence | Alex | ⬜ Not Started |
-| 5 | Board Management | Gabriel | ⬜ Not Started |
-| 6 | User Profile Customization | Kieran & Matthew | ⬜ Not Started |
-
----
-
-## 1. Account Registration & Login — Matthew
-
-**User Story:** As a user, I want to create an account and log in so that my boards and preferences are associated with my profile.
-
-**Use Cases:**
-- Register User
-- Log In
-- Account Retrieval
-
-**Tasks:**
-- [ ] Create `User` entity
-- [ ] Implement registration
-- [ ] Implement login and authentication
-- [ ] Implement account retrieval
-- [ ] Store user data in `users.json`
-- [ ] Implement password hashing
-- [ ] Build Swing login and registration interfaces
-- [ ] Write unit tests
-
----
-
-## 2. Image Search & Browsing — Kevin
-
-**User Story:** As a user, I want to search and browse images so that I can discover inspiration for my projects.
-
-### Search Functionality
-
-**Example Workflow:**
-1. User enters "Japanese interior design" into the search bar.
-2. User clicks Search.
-3. Application sends the query to the Unsplash API.
-4. Unsplash returns matching image metadata.
-5. Application displays images in a grid.
-
-**Tasks:**
-- [ ] Set up Unsplash API integration
-- [ ] Create `UnsplashClient` for HTTP requests
-- [ ] Implement keyword search
-- [ ] Parse image metadata from JSON responses
-- [ ] Create `SearchImage` / `ImageResult` model
-- [ ] Build Swing search bar
-- [ ] Display images in a grid
-- [ ] Implement image loading
-- [ ] Handle API errors, empty results, and rate limits
-- [ ] Write unit tests
-
-### Filter & Sort Functionality
-
-**Potential filters:**
-- Categories (drawings, photography, architecture, etc.)
-- Sort by relevance
-- Sort by newest
-- Sort by popularity
-
-**Tasks:**
-- [ ] Add sorting dropdown
-- [ ] Implement relevance and newest sorting using supported API options
-- [ ] Investigate popularity sorting using available metadata
-- [ ] Implement category filters
-- [ ] Connect filter controls to search results
-- [ ] Test sorting and filtering
-
-**Note:** Unsplash primarily provides photographs. Drawing and illustration categories may require keyword searches or another API.
-
----
-
-## 3. Personalized Recommendations — Kevin
-
-**User Story:** As a user, I want personalized recommendations based on preferences for a board so that I can discover pictures that interest me.
-
-### Recommendation Algorithm
-
-Images are converted into numerical vectors representing their visual features. The application compares a board's preference vector with candidate image vectors using cosine similarity.
-
-**Workflow:**
-
-Board Pins → Image Vectors → Average Preference Vector → Candidate Images → Cosine Similarity → Ranked Recommendations
-
-### Core Tasks
-
-- [ ] Research image embedding approaches (CLIP, ONNX Runtime, DJL)
-- [ ] Implement image feature vector extraction
-- [ ] Calculate a board preference vector
-- [ ] Implement cosine similarity
-- [ ] Rank candidate images by similarity
-- [ ] Generate recommendations separately for each board
-- [ ] Display recommended images in Swing
-- [ ] Handle boards without sufficient pins
-- [ ] Write recommendation algorithm unit tests
-
-### Optional Features
-
-**Taste Mixer:**
-
-Blend two users' or boards' preferences using a slider.
-
-Example:
-
-`targetVector = 0.7 * boardA + 0.3 * boardB`
-
-- [ ] Implement weighted vector blending
-- [ ] Add Swing slider to control weights
-- [ ] Generate blended recommendations
-
-**Group Recommendations:**
-- [ ] Compare candidates against multiple preference vectors
-- [ ] Rank images that perform well for multiple users
-
-**Board Analyzer:**
-- [ ] Calculate average board vector
-- [ ] Identify pins that differ significantly from the board's theme
-
----
-
-## 4. Pin Management — Alex
-
-**User Story:** As a user, I want to create, view, and edit an individual pin's image, title, description, and tags.
-
-### Pin Model
-
-```java
-public class Pin {
-    private String id;
-    private String title;
-    private String imageUrl;
-    private String description;
-    private List<String> tags;
-}
-```
-
-### Task A — Shared JSON Utility
-
-- [ ] Implement reusable JSON reading utility
-- [ ] Implement reusable JSON writing utility
-- [ ] Handle missing files and invalid JSON
-- [ ] Share utility with other repository implementations
-- [ ] Test JSON persistence
-
-### Task B — Pin Persistence
-
-- [ ] Create `PinRepository` interface
-- [ ] Implement JSON-based `PinRepository`
-- [ ] Save a new Pin
-- [ ] Find a Pin by ID
-- [ ] Update Pin metadata
-- [ ] Store Pin metadata in `pins.json`
-- [ ] Verify persistence after application restart
-
-### Task C — Pin Use Case
-
-- [ ] Implement `CreatePin` or `EditPin`
-- [ ] Validate Pin fields
-- [ ] Connect use case to repository
-- [ ] Build Swing interface
-- [ ] Write unit tests
-
-**Success Criteria:** A saved Pin remains available after closing and reopening the application.
-
----
-
-## 5. Board Management — Gabriel
-
-**User Story:** As a user, I want to create, view, and edit boards so that I can organize pictures.
-
-**Use Case:** Manage Boards
-
-### Main Workflow
-
-1. User navigates to the Saved page.
-2. Application displays the user's boards.
-3. User selects Create, Rename, or Delete.
-4. Application updates the selected board.
-5. Changes persist in `boards.json`.
-
-### Tasks
-
-- [ ] Create `Board` entity
-- [ ] Create `BoardRepository` interface
-- [ ] Implement JSON board persistence
-- [ ] Implement Create Board
-- [ ] Implement View Boards
-- [ ] Implement Rename Board
-- [ ] Implement Delete Board
-- [ ] Implement Add Pin to Board
-- [ ] Implement Remove Pin from Board
-- [ ] Associate boards with user IDs
-- [ ] Build Swing Saved/Boards page
-- [ ] Write unit tests
-
-**Example Structure:**
-
-```text
-User
- └── Board: Japanese Architecture
-       ├── Pin 1: Minimalist living room
-       ├── Pin 2: Wooden house
-       └── Pin 3: Traditional Japanese
-```
-
----
-
-## 6. User Profile Customization — Kieran & Matthew
-
-**User Story:** As a user, I want to customize my profile so that I can express myself.
-
-### Profile Properties
-
-```java
-public class UserProfile {
-    private String userId;
-    private String displayName;
-    private String biography;
-    private String avatarPath;
-    private String bannerPath;
-    private String featuredBoardId;
-}
-```
-
-### Appearance Settings
-
-```java
-public class AppearanceSettings {
-    private Theme theme;
-    private String accentColor;
-    private String fontFamily;
-    private int fontSize;
-    private boolean highContrast;
-}
-```
-
-### Tasks
-
-- [ ] Create `UserProfile` entity
-- [ ] Create `AppearanceSettings` entity
-- [ ] Implement profile editing
-- [ ] Implement display name customization
-- [ ] Implement biography editing
-- [ ] Implement avatar and banner customization
-- [ ] Implement light/dark mode
-- [ ] Implement accent color customization
-- [ ] Implement font and font size customization
-- [ ] Implement high contrast setting
-- [ ] Persist settings in `profiles.json`
-- [ ] Build Swing profile customization interface
-- [ ] Write unit tests
-
----
-
-## JSON Data Ownership
-
-| File | Owner | Data Stored |
+| ID | User Story | Responsible |
 |---|---|---|
-| `users.json` | Matthew | User IDs, usernames, password hashes |
-| `profiles.json` | Kieran | Bios, avatars, banners, appearance settings |
-| `pins.json` | Alex | Pin IDs, URLs, titles, descriptions, metadata |
-| `boards.json` | Gabriel | Board IDs, owner IDs, saved Pin IDs |
-| `likes.json` | TBD | User–Pin likes for application-specific popularity |
+| 1 | As a user, I want to create an account and log in so that my boards and preferences are associated with my profile. | Matthew |
+| 2 | As a user, I want to search and browse images so that I can discover inspiration for my projects. | Kevin |
+| 3 | As a user, I want personalized recommendations based on my board's preferences so that I can discover images relevant to my interests. | Kevin |
+| 4 | As a user, I want to create, view, and edit individual pins, including their titles, descriptions, images, and tags, so that I can manage saved content. | Alex |
+| 5 | As a user, I want to create, view, and edit boards so that I can organize images by topic. | Gabriel |
+| 6 | As a user, I want to customize my profile and appearance settings so that I can personalize my experience. | Kieran & Matthew |
 
-**Important:** Each teammate owns their JSON schema. All team members should use the shared JSON utility where appropriate.
+## Main Features
 
----
+### 1. Account Management
+Users can register, log in, and access their saved boards and preferences through their accounts.
 
-## Unsplash API Integration
+### 2. Image Search and Browsing
+Users can search for images using keywords, such as "Japanese interior design." Search results are retrieved from the Unsplash API and displayed in an image grid.
+
+The application also aims to support filtering and sorting images by categories, relevance, date, and popularity where supported.
+
+### 3. Personalized Recommendations
+The application will recommend images based on the visual characteristics of pins saved to a particular board.
+
+Image features will be represented as numerical vectors, and cosine similarity will be used to rank candidate images based on their similarity to a board's preferences.
+
+A potential additional feature is a **Taste Mixer**, allowing users to blend preferences between two boards or users using a slider.
+
+### 4. Pin Management
+Users can create, view, and edit pins. Each pin contains information such as:
+
+- Image URL
+- Title
+- Description
+- Tags
+- Source information
+
+Pin information will be stored locally using JSON files.
+
+### 5. Board Management
+Users can create, view, rename, and delete boards to organize saved pins by topic.
+
+For example, a board titled "Japanese Architecture" could contain pins featuring minimalist interiors, wooden houses, and traditional Japanese buildings.
+
+### 6. Profile Customization
+Users can customize their profiles through features such as display names, biographies, avatars, banners, themes, fonts, and appearance settings.
+
+## APIs
+
+### Unsplash API
 
 **Documentation:** https://unsplash.com/documentation
 
-### Example API Response
+The application uses the Unsplash API to retrieve images based on user search queries.
 
-```json
-{
-  "id": "abc123",
-  "created_at": "2026-09-15T12:30:00Z",
-  "likes": 248,
-  "description": "Japanese minimalist interior",
-  "urls": {
-    "regular": "https://images.unsplash.com/..."
-  }
-}
-```
-
-### Required Image Metadata
+The API provides image metadata, including:
 
 | Attribute | Purpose |
 |---|---|
-| `id` | Unique Unsplash photo identifier |
-| `created_at` | Original upload date |
-| `likes` | Unsplash like count, when available |
+| `id` | Unique image identifier |
 | `description` | Image description |
-| `urls.regular` | Image display URL |
-| `user` | Photographer attribution |
+| `urls.regular` | URL used to display the image |
+| `created_at` | Image upload date |
+| `likes` | Number of likes on Unsplash |
+| `user` | Photographer information and attribution |
 
-### API Tasks
+**Example Search Workflow:**
 
-- [ ] Verify exact response fields against Unsplash documentation
-- [ ] Implement image metadata model
-- [ ] Implement JSON response parsing
-- [ ] Load images from returned URLs
-- [ ] Follow Unsplash attribution and API usage requirements
-- [ ] Ensure API access credentials are not committed to GitHub
+1. User enters "Japanese interior design" into the search bar.
+2. The application sends a request to the Unsplash API.
+3. Unsplash returns matching images and associated metadata.
+4. The application processes the response.
+5. Images are displayed in a grid using Java Swing.
 
----
+## Technologies
 
-## Shared Architecture
+| Technology | Purpose |
+|---|---|
+| Java | Main programming language |
+| Java Swing | Graphical user interface |
+| Unsplash API | Image search and retrieval |
+| JSON | Local storage of user, board, and pin data |
+| JUnit | Unit testing |
+| Git & GitHub | Version control and team collaboration |
+| Image Embedding Model (TBD) | Feature extraction for personalized recommendations |
 
-### Planned Layers
+## Data Storage
 
-```text
-Presentation Layer (Java Swing)
-             |
-             v
-Use Case Layer
-(Search, Recommendations, Pins, Boards, Profiles)
-             |
-             v
-Interface / Repository Layer
-             |
-       +-----+------+
-       |            |
-       v            v
-   Unsplash API   JSON Storage
-                      |
-          +-----------+------------+
-          |           |            |
-      users.json  boards.json  pins.json
-      profiles.json          likes.json
-```
+The application uses local JSON files to store application data.
 
-### Architecture Tasks
+| File | Responsible | Information Stored |
+|---|---|---|
+| `users.json` | Matthew | User accounts and authentication information |
+| `profiles.json` | Kieran | User profiles and appearance preferences |
+| `pins.json` | Alex | Saved pin information and metadata |
+| `boards.json` | Gabriel | Boards, ownership, and associated pins |
+| `likes.json` | TBD | User likes and application-specific popularity |
 
-- [ ] Agree on package structure
-- [ ] Define entities and interfaces
-- [ ] Define shared JSON schemas
-- [ ] Connect use cases to repositories
-- [ ] Connect Swing screens to use cases
-- [ ] Create UML class diagram
-- [ ] Review dependencies between team features
-- [ ] Test cross-feature integration
+A shared JSON utility will be used to read and write persistent data.
 
----
+## Application Architecture
 
-## Project Milestones
+The project follows Clean Architecture principles to separate business logic, data access, and the user interface.
 
-### Milestone 1 — Planning & Architecture
+The main components include:
 
-- [ ] Finalize user stories
-- [ ] Finalize use cases
-- [ ] Assign responsibilities
-- [ ] Define interfaces between components
-- [ ] Create UML class diagram
-- [ ] Agree on JSON structure
-
-### Milestone 2 — Core Implementation
-
-- [ ] Registration and login
-- [ ] Unsplash image search
-- [ ] Pin creation and persistence
-- [ ] Board management
-- [ ] Profile customization
-- [ ] Basic Swing navigation
-
-### Milestone 3 — Advanced Functionality
-
-- [ ] Recommendation algorithm
-- [ ] Board-specific recommendations
-- [ ] Search filtering and sorting
-- [ ] Optional Taste Mixer
-- [ ] Optional group recommendations
-- [ ] Optional Board Analyzer
-
-### Milestone 4 — Testing & Integration
-
-- [ ] Unit tests for each use case
-- [ ] JSON persistence tests
-- [ ] Unsplash API integration tests
-- [ ] GUI interaction tests
-- [ ] Cross-feature integration tests
-- [ ] Resolve outstanding bugs
-- [ ] Final code review
-
----
-
-## GitHub Workflow
-
-Each feature should be developed on a separate branch.
-
-**Suggested Branch Names:**
-
-```text
-feature/authentication
-feature/image-search
-feature/recommendations
-feature/pin-management
-feature/board-management
-feature/profile-customization
-```
-
-**Workflow:**
-1. Create a feature branch.
-2. Implement the assigned functionality.
-3. Write and run tests.
-4. Commit changes.
-5. Push branch to GitHub.
-6. Open a Pull Request.
-7. Request review before merging into `main`.
-
-**Pull Request Checklist:**
-- [ ] Feature implements its user story
-- [ ] Code compiles
-- [ ] Unit tests pass
-- [ ] No API secrets or passwords committed
-- [ ] Shared interfaces remain compatible
-- [ ] Changes reviewed by another teammate
-
----
-
-## Outstanding Decisions
-
-- [ ] Assign an owner to `likes.json`
-- [ ] Decide on recommendation embedding model
-- [ ] Confirm Unsplash API rate limits and image usage requirements
-- [ ] Decide how image vector embeddings are cached
-- [ ] Decide whether images are stored only as URLs
-- [ ] Agree on how boards reference pins
-- [ ] Determine how search filtering interacts with API results
-- [ ] Establish integration/testing deadlines
-- [ ] Finalize UML class diagram
-
-
+- **Entities:** Users, Pins, Boards, UserProfiles
+- **Use Cases:** Authentication, Image Search, Recommendations, Pin Management, Board Management, Profile Customization
+- **Data Access:** JSON repositories and Unsplash API integration
+- **User Interface:** Java Swing components
