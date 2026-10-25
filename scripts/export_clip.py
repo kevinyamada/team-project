@@ -1,6 +1,3 @@
-"""One-time optional export; the application itself runs entirely in Java.
-Install the versions in scripts/clip-requirements.txt, then run this script.
-"""
 from pathlib import Path
 import torch
 from transformers import CLIPVisionModelWithProjection
@@ -14,7 +11,6 @@ class ImageEncoder(torch.nn.Module):
         return self.model(pixel_values=pixel_values).image_embeds
 
 if __name__ == "__main__":
-    # Pin the checkpoint revision so the same model is exported on each machine.
     model = CLIPVisionModelWithProjection.from_pretrained(
         "openai/clip-vit-base-patch32", revision="3d74acf9a28c67741b2f4f2ea7635f0aaf6f0268", attn_implementation="eager"
     ).eval()
